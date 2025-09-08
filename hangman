@@ -1,5 +1,5 @@
-import nltk
 from nltk.corpus import words
+#download if not already present ↓
 #nltk.download('words')
 word_list = words.words()
 
@@ -79,7 +79,7 @@ def print_stage(stage):
     print("\n")
 
 print_stage(stages[0])
-associate = (random.randint(0, 236736))
+associate = (random.randint(0, len(word_list)-1))
 word = word_list[associate]
 empty = ["_"]*len(word)
 for character in empty:
@@ -90,7 +90,7 @@ counter = 0
 used = []
 def emptyprint(empty):
     for letter in empty:
-        print(letter, end = "")
+        print(letter, end = " ")
     print(end="\n\n")
 
 def wrongprint(used):
@@ -107,33 +107,42 @@ def wrongprint(used):
 while True:
     counter = 0
     wrong = 0
+    verify = 0
     print("Wrong letters: ", end = "")
     wrongprint(used)
     letter = input(f"\nChoose a letter: ")
-
-    for character in word:
-
-        if letter == character:
-            empty[counter] = letter
+    while verify == 0:
+        if len(letter) > 1 or letter.isalpha() == False:
+            letter = input(f"That is not a letter.\nChoose a letter: ")
+        elif letter in used or letter in empty:
+            letter = input(f"You have already used this letter.\nChoose a different letter: ")
         else:
-            wrong = wrong + 1
-        counter = counter + 1
-    if wrong == len(word):
-        used.append(letter)
-        print("Wrong!")
-        score = score - 1
-        print_stage(stages[6-score])
-        if score == 1:
-            print(f"You have {score} try remaining.")
-        else:
-            print(f"You have {score} tries remaining.")
-    if score == 0:
-        print(f"You lose. The word is {word}.")
-        break
-    emptyprint(empty)
+            verify = 1
+    else:
+        for character in word:
 
-    if "_" not in empty:
-        print (f"The word is {word}")
+            if letter == character:
+                empty[counter] = letter
 
-        print("Well done.")
-        break
+            else:
+                wrong = wrong + 1
+            counter = counter + 1
+        if wrong == len(word):
+            used.append(letter)
+            print("Wrong!")
+            score = score - 1
+            print_stage(stages[6-score])
+            if score == 1:
+                print(f"You have {score} try remaining.")
+            else:
+                print(f"You have {score} tries remaining.")
+        if score == 0:
+            print(f"You lose. The word is {word}.")
+            break
+        emptyprint(empty)
+
+        if "_" not in empty:
+            print (f"The word is {word}")
+
+            print("Well done.")
+            break
