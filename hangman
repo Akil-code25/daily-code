@@ -1,8 +1,84 @@
 import nltk
 from nltk.corpus import words
-nltk.download('words')
+#nltk.download('words')
 word_list = words.words()
 
+stage_0 = (
+  " +--+",
+  " |  |",
+  "    |",
+  "    |",
+  "    |",
+  "    |",
+  "========="
+)
+
+stage_1 = (
+  " +--+",
+  " |  |",
+  " O  |",
+  "    |",
+  "    |",
+  "    |",
+"========="
+)
+
+stage_2 = (
+  " +--+",
+  " |  |",
+  " O  |",
+  " |  |",
+  "    |",
+  "    |",
+"========="
+)
+
+stage_3 = (
+  " +--+",
+  " |  |",
+  " O  |",
+  "/|  |",
+  "    |",
+  "    |",
+"========="
+)
+
+stage_4 = (
+  " +--+",
+  " |  |",
+  " O  |",
+  "/|\ |",
+  "    |",
+  "    |",
+"========="
+)
+stage_5 = (
+  " +--+",
+  " |  |",
+  " O  |",
+  "/|\ |",
+  "/   |",
+  "    |",
+"========="
+)
+stage_6 = (
+ "  +--+",
+ "  |  |",
+ "  O  |",
+ " /|\ |",
+ " / \ |",
+ "     |",
+"========="
+)
+
+stages = [stage_0,stage_1,stage_2,stage_3,stage_4,stage_5,stage_6]
+
+def print_stage(stage):
+    for line in stage:
+        print(line)
+    print("\n")
+
+print_stage(stages[0])
 associate = (random.randint(0, 236736))
 word = word_list[associate]
 empty = ["_"]*len(word)
@@ -25,6 +101,9 @@ def wrongprint(used):
             print(f", {letter}", end = "")
 
 
+
+
+
 while True:
     counter = 0
     wrong = 0
@@ -43,6 +122,7 @@ while True:
         used.append(letter)
         print("Wrong!")
         score = score - 1
+        print_stage(stages[6-score])
         if score == 1:
             print(f"You have {score} try remaining.")
         else:
