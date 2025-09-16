@@ -1,0 +1,97 @@
+import string
+import random
+import sympy
+from primePy import primes
+
+def listmaker(units, unitslist):
+    for unit in units:
+        unitslist.append(unit)
+
+chars = string.ascii_letters + string.digits +  string.punctuation + " "
+
+---------------------------------------------------------------------------------
+
+# Generate personal keys using code below, then substitude the key values with the generated keys.
+
+#key1 = random.choice(primes)
+#key2 = random.choice(primes)
+#shift = key1 * key2
+#print(f"{key1}, {key2}, {shift}" )
+
+key1 = 5693
+#key2 = 2803
+shift = 15957479
+
+---------------------------------------------------------------------------------
+
+charlist = []
+listmaker(chars,charlist)
+shiftlist = []
+listmaker(str(shift), shiftlist)
+primes = primes.upto(10000)
+
+
+def encrypt():
+    message = input("What is your message?: ")
+    encmessage = []
+    melist = []
+    listmaker(message, melist)
+    global charlist
+    global shiftlist
+    shiftlist = shiftlist * len(melist)
+    charlist = charlist * len(melist)
+    i = 0
+    while i < len(message):
+        num = charlist.index(melist[i])
+        # num is the index in charlist where the letter of the message is, e.g. 7
+        num2 = num + int(shiftlist[i])
+        # num2 is the shifted index, based on the shift number
+        encmessage.append(charlist[num2])
+        i += 1
+    for letter in encmessage:
+        print(letter, end = "")
+
+
+
+
+
+def decrypt():
+
+    key2 = input("Provide your key: ")
+    if shift/int(key2) == 1:
+        print("Wrong.")
+    elif key2 == 1:
+        print("Wrong.")
+    elif shift/int(key2) == key1:
+        encryption = input("What is the encrypted message?: ")
+        melist = []
+        encmessage = []
+        listmaker(encryption, melist)
+        global charlist
+        global shiftlist
+        shiftlist = shiftlist * len(melist)
+        charlist = charlist * len(melist)
+        i = 0
+        while i < len(encryption):
+            num = charlist.index(melist[i])
+            num2 = num - int(shiftlist[i])
+            encmessage.append(charlist[num2])
+            i += 1
+        for letter in encmessage:
+            print(letter, end="")
+    else:
+        print("Wrong.")
+
+
+while True:
+    start = input("Would you like to encrypt (e) or decrypt (d) a message?: ").lower()
+    if start not in ("e" , "d"):
+        print("That is not a valid answer.")
+        continue
+
+    elif start == "e":
+        encrypt()
+
+    elif start == "d":
+        decrypt()
+    break
